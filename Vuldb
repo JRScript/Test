@@ -1,0 +1,22 @@
+from urllib.parse import urlencode
+import json
+from urllib.request import Request, urlopen
+import requests
+import json
+import pandas as pd
+import time
+from tkinter import simpledialog
+
+url	= ('https://vuldb.com/?api')								#url endpoint
+post_fields	= { 'apikey': '2b76d98a5688c93b4787e96240cb98c8', 'recent': '10' }	#request
+
+request = Request(url, urlencode(post_fields).encode())
+res = urlopen(request).read().decode()
+result = open('result.json', 'w+')
+result.write(res)
+result.close()
+print (res)
+data = json.load(open('result.json'))
+
+df = pd.DataFrame(data["result"])
+df.to_excel("Output.xlsx")
